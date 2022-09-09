@@ -12,11 +12,13 @@ genres_ns = Namespace('genres')
 class GenresViews(Resource):
 
     def get(self):
+        """Функция возвращает все 'genre' из файла generals/data_dict."""
 
         genres = Genre.query.all()
         return genres_schema.dump(genres), 200
 
     def post(self):
+        """Функция добавляет 'genre' в файл data_dict по его 'name'"""
 
         query = request.json
         new_genre = Genre(**query)
@@ -29,6 +31,7 @@ class GenresViews(Resource):
 class GenreViews(Resource):
 
     def get(self, uid: int):
+        """Функция показывает один 'genre' по выбранному id. Иначе 404."""
 
         genre = Genre.query.get(uid)
         if not genre:
@@ -37,6 +40,7 @@ class GenreViews(Resource):
         return genre_schema.dump(genre)
 
     def put(self, uid: int):
+        """Функция изменит данные выбранного по id 'genre' Put - обновляет объект целиком"""
 
         genre = Genre.query.get(uid)
         if not genre:
@@ -49,6 +53,7 @@ class GenreViews(Resource):
         return jsonify({'Attention': f'Genre №{uid} is update'})
 
     def patch(self, uid: int):
+        """Функция изменит данные выбранного по id 'genre' Patch - обновляет объект частично"""
 
         genre = Genre.query.get(uid)
         if not genre:
@@ -62,6 +67,7 @@ class GenreViews(Resource):
         return jsonify({'Attention': f'Genre №{uid} is update'})
 
     def delete(self, uid: int):
+        """Удаляет 'genre' по его id"""
 
         genre = Genre.query.get(uid)
         if not genre:

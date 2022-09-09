@@ -12,6 +12,7 @@ movies_ns = Namespace('movies')
 class MoviesView(Resource):
 
     def get(self):
+        """Функция возвращает все 'movie' из файла generals/data_dict."""
 
         movies = Movie.query.all()
         director_id = request.args.get('director_id')
@@ -26,6 +27,7 @@ class MoviesView(Resource):
         return movies_schema.dump(query), 200
 
     def post(self):
+        """Функция добавляет 'movie' в файл data_dict. """
 
         query = request.json
         new_movie = Movie(**query)
@@ -38,6 +40,7 @@ class MoviesView(Resource):
 class MovieView(Resource):
 
     def get(self, uid: int):
+        """Функция показывает один 'movie' по выбранному id. Иначе 404"""
 
         movie = Movie.query.get(uid)
         if not movie:
@@ -45,6 +48,7 @@ class MovieView(Resource):
         return movie_schema.dump(movie)
 
     def put(self, uid: int):
+        """Функция изменит данные выбранного по id 'movie' Put - обновляет объект целиком"""
 
         movie = Movie.query.get(uid)
         if not movie:
@@ -63,6 +67,7 @@ class MovieView(Resource):
         return jsonify({'Attention': f'Movie №{uid} is update'})
 
     def patch(self, uid: int):
+        """Функция изменит данные выбранного по id 'movie' Patch - обновляет объект частично"""
 
         movie = Movie.query.get(uid)
         if not movie:
@@ -88,6 +93,7 @@ class MovieView(Resource):
         return jsonify({'Attention': f'Movie №{uid} is update'})
 
     def delete(self, uid: int):
+        """Удаляет 'movie' по его id"""
 
         movie = Movie.query.get(uid)
         if not movie:

@@ -12,11 +12,13 @@ directors_ns = Namespace('directors')
 class DirectorsView(Resource):
 
     def get(self):
+        """ Функция возвращает всех 'directors' из файла generals/data_dict. """
 
         director = Director.query.all()
         return directors_schema.dump(director)
 
     def post(self):
+        """Функция добавляет 'director' в файл data_dict по его 'name' """
 
         query = request.json
         new_director = Director(**query)
@@ -29,6 +31,7 @@ class DirectorsView(Resource):
 class DirectorViews(Resource):
 
     def get(self, uid: int):
+        """Функция показывает одного 'director' по выбранному id. Иначе 404. """
 
         director = Director.query.get(uid)
         if not director:
@@ -37,6 +40,7 @@ class DirectorViews(Resource):
         return director_schema.dump(director)
 
     def put(self, uid: int):
+        """Функция изменит данные выбранного по id 'director' Put - обновляет объект целиком"""
 
         director = Director.query.get(uid)
         if not director:
@@ -49,6 +53,7 @@ class DirectorViews(Resource):
         return jsonify({'Attention': f'Director №{uid} is update'})
 
     def patch(self, uid: int):
+        """Функция изменит данные выбранного по id 'director' Patch - обновляет объект частично"""
 
         director = Director.query.get(uid)
         if not director:
@@ -62,6 +67,7 @@ class DirectorViews(Resource):
         return jsonify({'Attention': f'Director №{uid} is update'})
 
     def delete(self, uid: int):
+        """Удаляет 'director' по его id"""
 
         director = Director.query.get(uid)
         if not director:
