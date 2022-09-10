@@ -1,8 +1,8 @@
 from flask import request, abort, jsonify
 from flask_restx import Namespace, Resource
-from generals.global_variables import db
-from models_schemas_and_create_db.models import Genre
-from models_schemas_and_create_db.schemas import genre_schema, genres_schema
+from raw_data.import_sql import db
+from data_management.models import Genre
+from data_management.schemas import genre_schema, genres_schema
 
 
 genres_ns = Namespace('genres')
@@ -12,7 +12,7 @@ genres_ns = Namespace('genres')
 class GenresViews(Resource):
 
     def get(self):
-        """Функция возвращает все 'genre' из файла generals/data_dict."""
+        """Функция возвращает все 'genre' из файла raw_data/data_dict."""
 
         genres = Genre.query.all()
         return genres_schema.dump(genres), 200

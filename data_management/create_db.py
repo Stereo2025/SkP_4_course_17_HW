@@ -1,6 +1,6 @@
-from generals.global_variables import db
-from generals.data_dict import data
-from models_schemas_and_create_db.models import Movie, Director, Genre
+from raw_data.import_sql import db
+from raw_data.data_dict import data
+from data_management.models import Movie, Director, Genre
 
 
 def create_dbase():

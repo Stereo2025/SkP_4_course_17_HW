@@ -1,8 +1,8 @@
 from flask import request, abort, jsonify
 from flask_restx import Namespace, Resource
-from generals.global_variables import db
-from models_schemas_and_create_db.models import Director
-from models_schemas_and_create_db.schemas import director_schema, directors_schema
+from raw_data.import_sql import db
+from data_management.models import Director
+from data_management.schemas import director_schema, directors_schema
 
 
 directors_ns = Namespace('directors')
@@ -12,7 +12,7 @@ directors_ns = Namespace('directors')
 class DirectorsView(Resource):
 
     def get(self):
-        """ Функция возвращает всех 'directors' из файла generals/data_dict. """
+        """ Функция возвращает всех 'directors' из файла raw_data/data_dict. """
 
         director = Director.query.all()
         return directors_schema.dump(director)

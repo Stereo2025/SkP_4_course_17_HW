@@ -1,4 +1,4 @@
-from generals.global_variables import db
+from raw_data.import_sql import db
 
 
 class Movie(db.Model):
