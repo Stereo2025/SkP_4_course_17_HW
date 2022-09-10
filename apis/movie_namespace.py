@@ -13,7 +13,12 @@ movies_ns = Namespace('movies')
 class MoviesView(Resource):
 
     def get(self, page=None):
-        """Функция возвращает все 'movie' из файла generals/data_dict."""
+        """
+        По запросу /?director_id=id функция возвращает все фильмы где director_id == director_id.
+        По запросу /?genre_id=id функция возвращает все фильмы где genre_id == genre_id.
+        По запросу /movies/page/1 or 2 or 3 и т.д функция возвращает фильмы в количестве 5 штук на страничку.
+        По запросу /movies/ функция возвращает все фильмы из БД.
+        """
 
         director_id = request.args.get('director_id')
         genre_id = request.args.get('genre_id')
