@@ -8,41 +8,26 @@ from models_schemas_and_create_db.schemas import movies_schema, movie_schema
 movies_ns = Namespace('movies')
 
 
-@movies_ns.route("/page=1/")
+@movies_ns.route("/")
+@movies_ns.route('/page/<int:page>')
 class MoviesView(Resource):
 
-    # def get(self):
-    #     """Функция возвращает все 'movie' из файла generals/data_dict."""
-    #
-    #     movies = Movie.query.all()
-    #     director_id = request.args.get('director_id')
-    #     genre_id = request.args.get('genre_id')
-    #
-    #     if director_id:
-    #         movies = Movie.query.filter(Movie.director_id == director_id)
-    #     elif genre_id:
-    #         movies = Movie.query.filter(Movie.genre_id == genre_id)
-    #     query = movies
-    #
-    #     return movies_schema.dump(query), 200
-    def get(self):
+    def get(self, page=None):
         """Функция возвращает все 'movie' из файла generals/data_dict."""
 
-        page = request.args.get('page', 1)
-        items_per_page = 5
-
-        movies = Movie.query
         director_id = request.args.get('director_id')
         genre_id = request.args.get('genre_id')
+        movies = Movie.query
 
         if director_id:
             movies = Movie.query.filter(Movie.director_id == director_id)
-        elif genre_id:
+        if genre_id:
             movies = Movie.query.filter(Movie.genre_id == genre_id)
+        elif page is not None:
+            movies = Movie.query.paginate(page, 5, error_out=False).items
+        query = movies
 
-        movies = movies.paginate(page, items_per_page, error_out=False)
-
-        return movies_schema.dump(movies.items), 200
+        return movies_schema.dump(query), 200
 
     def post(self):
         """Функция добавляет 'movie' в файл data_dict. """
