@@ -1,20 +1,8 @@
-from flask import Flask, jsonify
+from flask import jsonify, current_app
 from raw_data.import_sql import db
-from apis.config import blue_print
+from apis.config import api
 
-
-app = Flask(__name__)
-
-
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///hw_17.db'
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-app.config['RESTX_JSON'] = {'ensure_ascii': False}
-
-
-db.init_app(app)
-app.app_context().push()
-app.register_blueprint(blue_print)
+app = current_app
 
 
 @app.errorhandler(404)
